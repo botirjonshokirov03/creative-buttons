@@ -1,0 +1,53 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  background-color: #0f0f0f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.container {
+  text-align: center;
+}
+
+.neon-btn {
+  padding: 15px 40px;
+  font-size: 18px;
+  color: #fff;
+  background: none;
+  border: 2px solid #0ff;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 12px #0ff, 0 0 24px #0ff;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+.neon-btn:hover {
+  color: #0ff;
+  background: rgba(0, 255, 255, 0.1);
+  transform: scale(1.05);
+  box-shadow: 0 0 16px #0ff, 0 0 40px #0ff;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 12px #0ff, 0 0 24px #0ff;
+  }
+  50% {
+    box-shadow: 0 0 20px #0ff, 0 0 48px #0ff;
+  }
+  100% {
+    box-shadow: 0 0 12px #0ff, 0 0 24px #0ff;
+  }
+}
