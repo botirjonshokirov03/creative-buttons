@@ -1,0 +1,123 @@
+body {
+  background: radial-gradient(circle at center, #0f0f0f, #050505);
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  perspective: 1000px;
+}
+
+.calculator {
+  width: 300px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 20px 40px rgba(0, 255, 255, 0.2);
+  transform: rotateX(10deg) rotateY(-10deg);
+  transition: transform 0.3s;
+}
+
+.calculator:hover {
+  transform: rotateX(0deg) rotateY(0deg);
+}
+
+#display {
+  width: 100%;
+  font-size: 2rem;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #0ff;
+  text-align: right;
+  margin-bottom: 20px;
+  box-shadow: inset 0 0 10px rgba(0,255,255,0.2);
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+button {
+  padding: 15px;
+  font-size: 1.1rem;
+  background: linear-gradient(to bottom, #0ff, #0cc);
+  border: none;
+  color: #001f2f;
+  border-radius: 10px;
+  box-shadow:
+    0 6px 0 #088,
+    0 8px 15px rgba(0, 255, 255, 0.3);
+  cursor: pointer;
+  transform: translateY(0);
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  background: linear-gradient(to bottom, #0ff, #09c);
+  box-shadow:
+    0 8px 15px rgba(0, 255, 255, 0.5),
+    0 6px 0 #066;
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: translateY(4px);
+  box-shadow:
+    0 2px 0 #044,
+    0 3px 6px rgba(0, 255, 255, 0.2);
+}
+
+
+.scientific {
+  grid-column: span 4;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+.socials {
+  margin-top: 40px;
+  text-align: center;
+  animation: float 4s ease-in-out infinite;
+  transform: rotateX(10deg);
+  perspective: 1000px;
+}
+
+.socials p {
+  font-size: 1.2rem;
+  color: #0ff;
+  text-shadow: 0 0 5px #0ff, 0 0 10px #00f0ff;
+  margin: 8px 0;
+  transform: rotateX(15deg);
+  font-weight: bold;
+}
+
+.socials a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+.socials a:hover {
+  color: #0ff;
+  text-shadow: 0 0 8px #00ffff, 0 0 16px #00ffff;
+}
+
+@keyframes float {
+  0%   { transform: translateY(0px) rotateX(10deg); }
+  50%  { transform: translateY(-10px) rotateX(10deg); }
+  100% { transform: translateY(0px) rotateX(10deg); }
+}
