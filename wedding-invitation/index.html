@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wedding Invitation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Dancing Script', cursive;
+      color: #ffd9ec;
+    }
+
+    .scene {
+      perspective: 1000px;
+    }
+
+    .card {
+      width: 820px;
+      height: 520px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 2s ease;
+      animation: fly 5s ease-in-out infinite;
+      cursor: pointer;
+    }
+
+    @keyframes fly {
+      0%, 100% { transform: translateY(0px) rotateX(5deg) rotateY(-5deg); }
+      50% { transform: translateY(-20px) rotateX(10deg) rotateY(5deg); }
+    }
+
+    .card.opened {
+      transform: rotateY(180deg) scale(1.2);
+      animation: none;
+    }
+
+    .front, .back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #a12047, #95324f);
+      box-shadow: 0 10px 30px rgba(210, 38, 38, 0.3);
+      backface-visibility: hidden;
+      overflow: hidden;
+    }
+
+    .front::before {
+      content: "💌 Tap to Open";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.4rem;
+      color: #f5b7b1;
+    }
+
+    .back {
+      transform: rotateY(180deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .letter {
+      padding: 20px;
+      text-align: center;
+      opacity: 0;
+      animation: fadeIn 2s ease-in-out forwards;
+      animation-delay: 1s;
+    }
+
+    .card.opened .letter {
+      opacity: 1;
+    }
+
+    .couple {
+      width: 120px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+
+    .flowers {
+      width: 80px;
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+    }
+
+    .heart, .bird {
+      position: absolute;
+      opacity: 0;
+    }
+
+    .heart {
+      width: 40px;
+      animation: floatHeart 4s infinite ease-in-out;
+    }
+
+    .bird {
+      width: 60px;
+      animation: flyBird 8s ease-in-out forwards;
+    }
+
+    .show-heart {
+      opacity: 1;
+      animation: floatHeart 4s infinite ease-in-out;
+    }
+
+    .show-bird {
+      opacity: 1;
+      animation: flyBird 8s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes floatHeart {
+      0% { transform: translateY(0) translateX(0); }
+      25% { transform: translateY(-20px) translateX(-10px); }
+      50% { transform: translateY(-40px) translateX(10px); }
+      75% { transform: translateY(-60px) translateX(-10px); }
+      100% { transform: translateY(-80px) translateX(10px); opacity: 0; }
+    }
+
+    @keyframes flyBird {
+      0% { left: -60px; top: 150px; transform: rotate(0deg); }
+      40% { left: 400px; transform: rotate(0deg); }
+      50% { transform: rotate(180deg); }
+      100% { left: -60px; top: 20px; transform: rotate(180deg); opacity: 0; }
+    }
+
+    .fireworks {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 1s ease-in;
+      background: radial-gradient(circle, rgba(255,255,255,0.2), transparent);
+      animation: flicker 1s infinite;
+    }
+
+    .fireworks.active {
+      opacity: 1;
+    }
+
+    @keyframes flicker {
+      0%, 100% { background-color: rgba(255, 255, 255, 0.05); }
+      50% { background-color: rgba(255, 255, 255, 0.3); }
+    }
+  </style>
+</head>
+<body>
+  <div class="scene">
+    <div class="card" onclick="openCard()">
+      <div class="front"></div>
+      <div class="back">
+        <div class="letter">
+          <img src="images/couple.png" alt="Couple" class="couple" />
+          <h2>You’re Invited!</h2>
+          <p>
+            Join us in celebrating our wedding day.<br /><br />
+            💍 Palonchijon & His Love 💕<br /><br />
+            📅 Date: 10.10.2025<br />
+            📍 Eternal Love Garden
+          </p>
+          <img src="images/flowers.png" class="flowers" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fireworks" id="fireworks"></div>
+
+  <img src="images/heart.png" class="heart" id="heart1" style="left:420px; top:300px;" />
+  <img src="images/heart.png" class="heart" id="heart2" style="left:450px; top:320px;" />
+  <img src="images/birds.gif" class="bird" id="bird1" />
+  <img src="images/birds.gif" class="bird" id="bird2" />
+
+  <audio id="flySound" src="sounds/wings.wav"></audio>
+  <audio id="openSound" src="sounds/open.wav"></audio>
+  <audio id="fireworksSound" src="sounds/fireworks.wav"></audio>
+  <audio id="birdsSound" src="sounds/birds.wav" loop></audio>
+
+  <script>
+    let alreadyOpened = false;
+
+    function openCard() {
+      if (alreadyOpened) return;
+      alreadyOpened = true;
+
+      const card = document.querySelector('.card');
+      const fireworks = document.getElementById('fireworks');
+      const flySound = document.getElementById('flySound');
+      const openSound = document.getElementById('openSound');
+      const fireworksSound = document.getElementById('fireworksSound');
+      const birdsSound = document.getElementById('birdsSound');
+      const heart1 = document.getElementById('heart1');
+      const heart2 = document.getElementById('heart2');
+      const bird1 = document.getElementById('bird1');
+      const bird2 = document.getElementById('bird2');
+
+      card.classList.add('opened');
+      flySound.play();
+
+      setTimeout(() => {
+        openSound.play();
+        birdsSound.play();
+        fireworks.classList.add('active');
+        fireworksSound.play();
+
+        heart1.classList.add('show-heart');
+        heart2.classList.add('show-heart');
+        bird1.classList.add('show-bird');
+        bird2.classList.add('show-bird');
+      }, 1000);
+    }
+  </script>
+</body>
+</html>

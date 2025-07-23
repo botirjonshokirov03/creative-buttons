@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Creative Login/Register</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container" id="formContainer">
+    <div class="form-box login-box">
+      <h2>Login</h2>
+      <input type="text" placeholder="Username" />
+      <input type="password" placeholder="Password" />
+      <button>Login</button>
+      <div class="toggle-btn" onclick="flipForm()">Don't have an account? Register</div>
+    </div>
+    <div class="form-box register-box">
+      <h2>Register</h2>
+      <input type="text" placeholder="Username" />
+      <input type="email" placeholder="Email" />
+      <input type="password" placeholder="Password" />
+      <button>Register</button>
+      <div class="toggle-btn" onclick="flipForm()">Already have an account? Login</div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
