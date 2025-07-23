@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Realistic Sun Pull Light</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(to bottom, #1a1a1a, #000);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: sans-serif;
+      transition: background 1s;
+    }
+
+    body.light-on {
+      background: linear-gradient(to bottom, #fffed6, #ffd966);
+    }
+
+    .sun-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform-style: preserve-3d;
+    }
+
+    .sun {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle at center, #ffeb3b, #f9a825);
+      box-shadow: 0 0 40px rgba(255, 200, 0, 0.7);
+      position: relative;
+      z-index: 2;
+      transition: box-shadow 0.5s ease;
+    }
+
+    body.light-on .sun {
+      box-shadow: 0 0 120px rgba(255, 230, 0, 1);
+    }
+
+    .sun::before {
+      content: '😎';
+      font-size: 64px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .rays {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 240px;
+      height: 240px;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+    }
+
+    .ray {
+      position: absolute;
+      width: 10px;
+      height: 40px;
+      background: #ffc107;
+      top: 0;
+      left: 50%;
+      transform-origin: center 100px;
+    }
+
+    .chain {
+      position: absolute;
+      top: 180px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.1s;
+    }
+
+    .link {
+      width: 4px;
+      height: 10px;
+      background: #444;
+      margin: 2px 0;
+      border-radius: 2px;
+    }
+
+    .drop {
+      width: 20px;
+      height: 30px;
+      background: #555;
+      border-radius: 50% 50% 70% 70%;
+      margin-top: 4px;
+      cursor: grab;
+    }
+
+    .glow {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(255,255,200,0.3) 0%, transparent 70%);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    body.light-on .glow {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="sun-container">
+    <!-- Sun -->
+    <div class="rays" id="rays"></div>
+    <div class="sun"></div>
+
+    <!-- Pull chain -->
+    <div class="chain" id="chain">
+      <div class="link"></div>
+      <div class="link"></div>
+      <div class="link"></div>
+      <div class="link"></div>
+      <div class="link"></div>
+      <div class="drop" id="drop"></div>
+    </div>
+  </div>
+
+  <div class="glow"></div>
+
+  <script>
+    // Add sun rays dynamically
+    const rays = document.getElementById('rays');
+    for (let i = 0; i < 12; i++) {
+      const ray = document.createElement('div');
+      ray.className = 'ray';
+      ray.style.transform = `rotate(${i * 30}deg) translateY(-100px)`;
+      rays.appendChild(ray);
+    }
+
+    const drop = document.getElementById('drop');
+    const chain = document.getElementById('chain');
+    let startY = 0;
+    let isDragging = false;
+    let pulled = false;
+
+    drop.addEventListener('mousedown', (e) => {
+      startY = e.clientY;
+      isDragging = true;
+      pulled = false;
+      drop.style.cursor = 'grabbing';
+
+      const onMove = (eMove) => {
+        if (!isDragging) return;
+        let dy = eMove.clientY - startY;
+        dy = Math.min(150, Math.max(0, dy));
+        chain.style.transform = `translateY(${dy}px)`;
+
+        if (dy > 100) pulled = true;
+      };
+
+      const onUp = () => {
+        isDragging = false;
+        drop.style.cursor = 'grab';
+        chain.style.transition = 'transform 0.6s cubic-bezier(0.2, 1.4, 0.3, 1)';
+        chain.style.transform = 'translateY(0)';
+        if (pulled) document.body.classList.toggle('light-on');
+        setTimeout(() => {
+          chain.style.transition = 'transform 0.1s';
+        }, 600);
+
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('mouseup', onUp);
+      };
+
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('mouseup', onUp);
+    });
+  </script>
+</body>
+</html>
